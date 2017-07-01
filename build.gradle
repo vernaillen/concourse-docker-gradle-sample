@@ -40,7 +40,7 @@ jar {
 }
 
 docker {
-    name 'vernaillen/concourse-docker-gradle-sample:1'
+    name 'vernaillen/concourse-docker-gradle-sample'
     tags 'latest'
     dockerfile 'src/main/docker/Dockerfile'
     dependsOn tasks.jar
@@ -48,7 +48,7 @@ docker {
 
 dockerRun {
     name 'concourse-docker-gradle-sample'
-    image 'vernaillen/concourse-docker-gradle-sample:1'
+    image 'vernaillen/concourse-docker-gradle-sample'
     command 'java', '-Djava.security.egd=file:/dev/./urandom', '-jar', 'app.jar'
 }
 
