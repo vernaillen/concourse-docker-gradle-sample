@@ -20,4 +20,4 @@ jobs:
     file: concourse-docker-gradle-sample/ci/build.yml
   - put: docker-build
     params:
-      build: concourse-docker-gradle-sample
+      build: concourse-docker-gradle-sample/src/main/docker
