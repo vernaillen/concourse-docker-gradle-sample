@@ -1,0 +1,54 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.9.1"
+  }
+}
+
+plugins {
+    id 'com.palantir.docker' version '0.9.1'
+    id 'com.palantir.docker-run' version '0.9.1'
+}
+
+apply plugin: 'com.palantir.docker'
+apply plugin: 'application'
+apply plugin: 'java'
+
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    testCompile 'junit:junit:4.12'
+}
+
+
+mainClassName = 'com.vernaillen.examples.HelloWorld'
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': mainClassName
+        )
+    }
+}
+
+docker {
+    name 'vernaillen/concourse-docker-gradle-sample:1'
+    tags 'latest'
+    dockerfile 'src/main/docker/Dockerfile'
+    dependsOn tasks.jar
+}
+
+dockerRun {
+    name 'concourse-docker-gradle-sample'
+    image 'vernaillen/concourse-docker-gradle-sample:1'
+    command 'java', '-Djava.security.egd=file:/dev/./urandom', '-jar', 'app.jar'
+}
+

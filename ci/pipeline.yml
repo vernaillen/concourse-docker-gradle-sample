@@ -1,0 +1,15 @@
+---
+resources:
+- name: concourse-docker-gradle-sample
+  type: git
+  source:
+    uri: https://github.com/vernaillen/concourse-docker-gradle-sample.git
+
+jobs:
+- name: job-test-app
+  public: true
+  plan:
+  - get: concourse-docker-gradle-sample
+    trigger: true
+  - task: web-app-tests
+    file: concourse-docker-gradle-sample/ci/build.yml
