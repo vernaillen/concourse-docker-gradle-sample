@@ -5,19 +5,19 @@ resources:
   source:
     uri: https://github.com/vernaillen/concourse-docker-gradle-sample.git
 
-- name: docker-image
+- name: docker-build
   type: docker-image
   source:
     repository: vernaillen/concourse-docker-gradle-sample
 
 jobs:
-- name: job-test-app
+- name: build-app
   public: true
   plan:
   - get: concourse-docker-gradle-sample
     trigger: true
-  - task: web-app-tests
+  - task: gradle-build
     file: concourse-docker-gradle-sample/ci/build.yml
-  - put: docker-image
+  - put: docker-build
     params:
       build: concourse-docker-gradle-sample
